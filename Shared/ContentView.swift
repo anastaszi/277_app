@@ -24,7 +24,14 @@ struct ContentView: View {
                     )
                 }
             }
-            .navigationBarTitle("News Summary")
+            .navigationBarTitle("Tech and Fashion")
+            .toolbar{
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button(action: {uploadLatest()}, label: {
+                        Image(systemName: "arrow.2.circlepath")
+                    })
+                }
+            }
         }
     }
     
