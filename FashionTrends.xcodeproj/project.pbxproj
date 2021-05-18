@@ -77,7 +77,7 @@
 		5D0B6E382653414A00E930D0 /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
 		5D0B6E3E26538DA300E930D0 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		5D0B6E452653921100E930D0 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
-		5D0B6E4D26539C5600E930D0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		5D0B6E4E26539CFC00E930D0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +115,7 @@
 		5D0B6D9F26523F8A00E930D0 = {
 			isa = PBXGroup;
 			children = (
+				5D0B6E4E26539CFC00E930D0 /* README.md */,
 				5D0B6DA426523F8A00E930D0 /* Shared */,
 				5D0B6DAE26523F8D00E930D0 /* iOS */,
 				5D0B6DB526523F8D00E930D0 /* macOS */,
@@ -137,7 +138,6 @@
 				5D0B6DA726523F8D00E930D0 /* Assets.xcassets */,
 				5D0B6E3E26538DA300E930D0 /* SearchView.swift */,
 				5D0B6E452653921100E930D0 /* NewsCell.swift */,
-				5D0B6E4D26539C5600E930D0 /* README.md */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
