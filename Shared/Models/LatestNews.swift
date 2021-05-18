@@ -13,6 +13,7 @@ class LatestNews: ObservableObject {
     @Published var data: [NewsData] = []
     @Published var info: String = ""
     @Published var dataByCategory: [NewsData] = []
+    @Published var category: Categories = Categories.all
     
     @Published var newsResponse: FashionNewsAPIResponse?
     @Published var activityShouldAnimate = false;
@@ -38,6 +39,12 @@ class LatestNews: ObservableObject {
     
     init(session: URLSession = .shared, scheduler: DispatchQueue = DispatchQueue(label: "LatestNews")) {
         self.session = session
+        
+        $category
+            .dropFirst(1) //As soon as you create the observation, $city emits its first value. Since the first value is an empty string, you need to skip it to avoid an unintended network call.
+            .debounce(for: .seconds(0.1), scheduler: scheduler) //debounce works by waiting a second until the user stops typing
+            .sink(receiveValue: requestLatestNewsByType(category:)) //You observe these events via sink(receiveValue:) and handle them with requestCurrentWeather(querycity:)
+            .store(in: &bag)
     }
     
     
@@ -71,7 +78,7 @@ class LatestNews: ObservableObject {
             .eraseToAnyPublisher()
     }
     
-    func requestLatestNewsByType(category: Categories) -> AnyPublisher<Data, Error> {
+    func requestLatestNewsByTypeCombine(category: Categories) -> AnyPublisher<Data, Error> {
         return self.getNewsCombine(category: category.rawValue)
             .eraseToAnyPublisher()
     }
@@ -83,11 +90,23 @@ class LatestNews: ObservableObject {
     
     func requestLatestNewsByType(category: Categories)  {
         if (category == Categories.all) {
-            self.requestLatestNews()
+            self.requestLatestNews(main: false)
+        } else {
+            return self.requestLatestNewsByTypeCombine(category: category)
+                .decode(type:FashionNewsAPIResponse.self, decoder: LatestNews.newsJSONDecoder)
+                .receive(on: RunLoop.main)
+                .sink(receiveCompletion: {_ in
+                    print("receiveCompletion")
+                }, receiveValue: { [weak self] news in
+                    print(news.data.Items)
+                    self?.newsResponse = news
+                    self?.updateLocalNews(data: news, main: false)
+                })
+                .store(in: &bag)
         }
     }
     
-    func requestLatestNews() {
+    func requestLatestNews(main: Bool) {
         return self.requestLatestNewsCombine()
             .decode(type:FashionNewsAPIResponse.self, decoder: LatestNews.newsJSONDecoder)
             .receive(on: RunLoop.main)
@@ -96,32 +115,38 @@ class LatestNews: ObservableObject {
             }, receiveValue: { [weak self] news in
                 print(news.data.Items)
                 self?.newsResponse = news
-                self?.updateLocalNews(data: news)
+                self?.updateLocalNews(data: news, main: main)
             })
             .store(in: &bag)
     }
     
     func load() {
         //data.append(testData!);
-        self.requestLatestNews()
+        self.requestLatestNews(main: true)
     }
     
     func update() {
         self.load()
     }
     
-    func getByCategory(category: Categories) {
+    func getByCategory() {
         self.load()
     }
     
-    func updateLocalNews(data: FashionNewsAPIResponse) {
+    func updateLocalNews(data: FashionNewsAPIResponse, main: Bool) {
+        main ? self.data.removeAll() : self.dataByCategory.removeAll()
+        
         for item in data.data.Items {
             print(item.dateCreated)
             guard let newItem = NewsData(id: item.id, title: item.title, author: item.author, text: item.title, imgurl: item.imgurl, category: item.category, date: Date()) else {
                 fatalError("Not able to create new elem")
             }
+            if (main) {
+                self.data.append(newItem);
+            } else {
+                self.dataByCategory.append(newItem)
+            }
             
-            self.data.append(newItem);
         }
     }
 }

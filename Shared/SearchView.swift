@@ -9,22 +9,29 @@ import SwiftUI
 
 struct SearchView: View {
     @Binding var news: [NewsData]
+    @Binding var selectedCategory: Categories
     let getByCategory: () -> Void
-    @State private var selectedCategory = Categories.ai
     var body: some View {
-        HStack {
-                    Picker("Please choose a color", selection: $selectedCategory) {
+        VStack {
+            HStack {
+                Picker("Please choose a color", selection: $selectedCategory) {
                         ForEach(Categories.allCases) {
                             Text($0.rawValue)
                         }
                     }
-            Text("You selected: \(selectedCategory.rawValue)")
+           
                 }
+            List{
+                ForEach(news) { elem in
+                    NewsCell(newsElem: elem)
+                }
+            }
+        }
     }
 }
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(news: .constant(NewsData.defaultData), getByCategory: {})
+        SearchView(news: .constant(NewsData.defaultData), selectedCategory: .constant(Categories.ml), getByCategory: {})
     }
 }
