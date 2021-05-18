@@ -21,12 +21,22 @@ struct SearchView: View {
                     }
            
                 }
-            List{
+            NavigationView {List{
                 ForEach(news) { elem in
-                    NewsCell(newsElem: elem)
+                    NavigationLink(
+                        destination: NewsDetails(news: binding(for: elem)),
+                        label: {
+                            NewsCell(newsElem: elem)
+                        }
+                    ).navigationTitle("Results:")
                 }
             }
         }
+        }
+    }
+    private func binding(for elem: NewsData) -> Binding<NewsData> {
+        guard let newsIndex = news.firstIndex(where: {$0.id == elem.id}) else { fatalError("Cannot find element")}
+        return $news[newsIndex];
     }
 }
 

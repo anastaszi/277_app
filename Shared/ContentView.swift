@@ -46,3 +46,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView(news: .constant(NewsData.defaultData), uploadLatest: {})
     }
 }
+

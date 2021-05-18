@@ -138,7 +138,7 @@ class LatestNews: ObservableObject {
         
         for item in data.data.Items {
             print(item.dateCreated)
-            guard let newItem = NewsData(id: item.id, title: item.title, author: item.author, text: item.title, imgurl: item.imgurl, category: item.category, date: Date()) else {
+            guard let newItem = NewsData(id: item.id, title: item.title, author: item.author, text: item.text, imgurl: item.imgurl, category: item.category, date: Date()) else {
                 fatalError("Not able to create new elem")
             }
             if (main) {

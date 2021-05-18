@@ -8,7 +8,6 @@ Done:
 
 Nest:
 * adding styles to look good
-* add new categories
 * populate db
 * create video
 

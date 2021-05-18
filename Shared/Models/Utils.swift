@@ -10,9 +10,12 @@ import SwiftUI
 
 enum Categories: String, CaseIterable, Hashable, Identifiable {
     case all = "All"
-    case bitcoin = "Bitcoin"
+    case blockchain = "Blockchain"
     case ml = "ML"
     case ai = "AI"
+    case ar = "AR"
+    case bigdata = "BigData"
+    case cv = "ComputerVision"
     
     var id: Categories {self}
 }

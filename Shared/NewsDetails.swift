@@ -12,11 +12,18 @@ struct NewsDetails: View {
     
     var body: some View {
         VStack {
+            Spacer()
+                        .frame(height: 10)
+            VStack(spacing: 20) {
             Text(news.title)
             Text(news.category)
             Text(news.date, style: .date)
-            NewsImage(url: news.imgurl!)
+            
+                NewsImage(url: news.imgurl!)
             Text(news.text)
+            }
+            Spacer()
+                        .frame(height: 50)
         }
     }
 }
