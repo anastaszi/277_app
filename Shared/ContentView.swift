@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+
     @Binding var news: [NewsData]
     let uploadLatest: () -> Void
     
@@ -25,6 +26,7 @@ struct ContentView: View {
                 }
             }
             .navigationBarTitle("Tech and Fashion")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button(action: {uploadLatest()}, label: {
@@ -42,6 +44,7 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    
     static var previews: some View {
         ContentView(news: .constant(NewsData.defaultData), uploadLatest: {})
     }

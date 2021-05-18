@@ -6,8 +6,7 @@ Done:
 - search by type added
 - update button added
 
-Nest:
-* adding styles to look good
+Next:
 * populate db
 * create video
 

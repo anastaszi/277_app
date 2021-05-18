@@ -50,6 +50,6 @@ class NewsData: Identifiable, Codable {
     }
 }
 
-let testData = NewsData(id: "234234", title: "Fashion News", author: "Anastasia", text: "This is a long text", imgurl: "https://d2t51sxsanqkl5.cloudfront.net/eda01ed9-26e5-4996-899b-a362b46315d1", category: "Bitcoin", date: Date())
+let testData = NewsData(id: "234234", title: "Fashion News", author: "Anastasia", text: "This is a long text very very very very long text will be here and more and more text will be here", imgurl: "https://d2t51sxsanqkl5.cloudfront.net/eda01ed9-26e5-4996-899b-a362b46315d1", category: "Bitcoin", date: Date())
 
- 
+let testShortData = NewsData(id: "234234", title: "News", author: "Anastasia", text: "This ", imgurl: "https://d2t51sxsanqkl5.cloudfront.net/eda01ed9-26e5-4996-899b-a362b46315d1", category: "Bitcoin", date: Date())

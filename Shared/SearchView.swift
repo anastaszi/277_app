@@ -13,14 +13,13 @@ struct SearchView: View {
     let getByCategory: () -> Void
     var body: some View {
         VStack {
-            HStack {
-                Picker("Please choose a color", selection: $selectedCategory) {
+                Picker("Please choose Category", selection: $selectedCategory) {
                         ForEach(Categories.allCases) {
                             Text($0.rawValue)
                         }
-                    }
+                }.pickerStyle(MenuPickerStyle())
            
-                }
+            
             NavigationView {List{
                 ForEach(news) { elem in
                     NavigationLink(
@@ -28,11 +27,16 @@ struct SearchView: View {
                         label: {
                             NewsCell(newsElem: elem)
                         }
-                    ).navigationTitle("Results:")
+                    ).navigationTitle("Results for: \(selectedCategory.rawValue)")
                 }
             }
+            
         }
-        }
+            
+            
+        }.onAppear(perform: {
+            self.getByCategory()
+        })
     }
     private func binding(for elem: NewsData) -> Binding<NewsData> {
         guard let newsIndex = news.firstIndex(where: {$0.id == elem.id}) else { fatalError("Cannot find element")}

@@ -130,7 +130,7 @@ class LatestNews: ObservableObject {
     }
     
     func getByCategory() {
-        self.load()
+        self.requestLatestNewsByType(category: self.category)
     }
     
     func updateLocalNews(data: FashionNewsAPIResponse, main: Bool) {

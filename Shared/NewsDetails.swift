@@ -11,20 +11,34 @@ struct NewsDetails: View {
     @Binding var news: NewsData
     
     var body: some View {
-        VStack {
-            Spacer()
-                        .frame(height: 10)
-            VStack(spacing: 20) {
-            Text(news.title)
-            Text(news.category)
-            Text(news.date, style: .date)
+        HStack(alignment: .top){
+        VStack(alignment: .leading) {
+            VStack(alignment: .leading) {
+                Text(news.title)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.bottom, 5.0)
+                HStack {
+                    Text("in \(news.category)")
+                        .foregroundColor(Color.gray)
+                    Text("by \(news.author)")
+                        .foregroundColor(Color.gray)
+                }
+            
+                Text(news.date, style: .date)
+                    .foregroundColor(Color.gray)
             
                 NewsImage(url: news.imgurl!)
-            Text(news.text)
+                    .frame(width: .infinity, height: 200)
+                    .padding(.vertical)
+                Text(news.text)
+                    .multilineTextAlignment(.leading)
             }
             Spacer()
-                        .frame(height: 50)
         }
+            Spacer()
+        }
+        .padding(.horizontal, 20.0)
     }
 }
 
