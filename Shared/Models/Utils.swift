@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 enum Categories: String, CaseIterable, Hashable, Identifiable {
+    case all = "All"
     case bitcoin = "Bitcoin"
     case ml = "ML"
     case ai = "AI"

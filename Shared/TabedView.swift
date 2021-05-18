@@ -18,7 +18,7 @@ struct TabedView: View {
                 Image(systemName: (tabSelected == 0 ? "newspaper" : "newspaper.fill"))
                     Text("All News")
             }.tag(0)
-            ContentView(news: $latestNews.data, uploadLatest: {latestNews.load()}).tabItem{
+            SearchView(news: $latestNews.dataByCategory, getByCategory: {latestNews.getByCategory()}).tabItem{
                 Image(systemName: (tabSelected == 1 ? "magnifyingglass.circle" : "magnifyingglass.circle.fill"))
                         Text("Search")
             }.tag(1)

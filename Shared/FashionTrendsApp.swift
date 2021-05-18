@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Amplify
 
 @main
 struct FashionTrendsApp: App {

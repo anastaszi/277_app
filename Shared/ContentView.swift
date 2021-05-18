@@ -19,7 +19,7 @@ struct ContentView: View {
                         
                         destination: NewsDetails(news: binding(for: elem)),
                         label: {
-                            Text(elem.title)
+                            NewsCell(newsElem: elem)
                         }
                     )
                 }

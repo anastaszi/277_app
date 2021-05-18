@@ -12,6 +12,7 @@ import Combine
 class LatestNews: ObservableObject {
     @Published var data: [NewsData] = []
     @Published var info: String = ""
+    @Published var dataByCategory: [NewsData] = []
     
     @Published var newsResponse: FashionNewsAPIResponse?
     @Published var activityShouldAnimate = false;
@@ -41,7 +42,7 @@ class LatestNews: ObservableObject {
     
     
     func getNewsCombine() -> AnyPublisher<Data, Error> {
-        let getNewsURL = makeGetCall().url!
+        let getNewsURL = getAllNews().url!
         
         let urlRequest = URLRequest(url: getNewsURL, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 30)
         
@@ -55,9 +56,35 @@ class LatestNews: ObservableObject {
             .eraseToAnyPublisher()
     }
     
+    func getNewsCombine(category: String) -> AnyPublisher<Data, Error> {
+        let getNewsURL = getNewsByCategory(category: category).url!
+        
+        let urlRequest = URLRequest(url: getNewsURL, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 30)
+        
+        return URLSession.shared.dataTaskPublisher(for: urlRequest)
+            .mapError({error -> Error in
+                APIErrors(rawValue: error.code.rawValue) ?? APIProviderError.unknownError
+            })
+            .map {
+                $0.data
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func requestLatestNewsByType(category: Categories) -> AnyPublisher<Data, Error> {
+        return self.getNewsCombine(category: category.rawValue)
+            .eraseToAnyPublisher()
+    }
+    
     func requestLatestNewsCombine() -> AnyPublisher<Data, Error> {
         return self.getNewsCombine()
             .eraseToAnyPublisher()
+    }
+    
+    func requestLatestNewsByType(category: Categories)  {
+        if (category == Categories.all) {
+            self.requestLatestNews()
+        }
     }
     
     func requestLatestNews() {
@@ -79,10 +106,16 @@ class LatestNews: ObservableObject {
         self.requestLatestNews()
     }
     
+    func update() {
+        self.load()
+    }
+    
+    func getByCategory(category: Categories) {
+        self.load()
+    }
+    
     func updateLocalNews(data: FashionNewsAPIResponse) {
         for item in data.data.Items {
-            print(item.author)
-            print(item.title)
             print(item.dateCreated)
             guard let newItem = NewsData(id: item.id, title: item.title, author: item.author, text: item.title, imgurl: item.imgurl, category: item.category, date: Date()) else {
                 fatalError("Not able to create new elem")
@@ -100,11 +133,20 @@ private extension LatestNews {
         static let path = "/master"
     }
     
-    func makeGetCall() -> URLComponents {
+    func getAllNews() -> URLComponents {
         var components = URLComponents()
         components.scheme = APIGateway.scheme
         components.host = APIGateway.host
         components.path = APIGateway.path + "/news"
+        
+        return components
+    }
+    
+    func getNewsByCategory(category: String) -> URLComponents {
+        var components = URLComponents()
+        components.scheme = APIGateway.scheme
+        components.host = APIGateway.host
+        components.path = APIGateway.path + "/categories/" + category
         
         return components
     }
