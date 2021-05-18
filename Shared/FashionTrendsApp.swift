@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import Amplify
 
 @main
 struct FashionTrendsApp: App {
+    @StateObject private var data = LatestNews()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabedView().environmentObject(data)
+                .onAppear{
+                    data.load()
+                }
         }
     }
 }
