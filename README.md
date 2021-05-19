@@ -1,5 +1,7 @@
 ##  Fashion News App
 
+
+
 ### Status:
 Done: 
 - api calls added

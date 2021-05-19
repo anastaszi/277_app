@@ -10,16 +10,19 @@ import SwiftUI
 struct NewsCell: View {
     var newsElem: NewsData
     var body: some View {
-        HStack(alignment: .top) {
-            NewsImage(url: newsElem.imgurl!)
-                .frame(width: 150, height: 150)
+        HStack {
+            VStack(alignment: .leading, spacing: 0.0){
+            Text(newsElem.title)
+                .font(.title2)
+                .multilineTextAlignment(.leading)
+                .lineLimit(2)
+                
+                HStack(alignment: .top, spacing: 0.0) {
+                    NewsImage(url: newsElem.imgurl!)
+                        .padding(.trailing)
+                .frame(width: 150, height: 100)
             VStack(alignment: .leading, spacing: 3.0, content: {
-                Text(newsElem.title)
-                    .font(.title)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(0)
-                    .padding(.trailing)
-                    
+
                 Text("in \(newsElem.category)")
                     .font(.footnote)
                     .foregroundColor(Color.gray)
@@ -37,7 +40,9 @@ struct NewsCell: View {
           
         }
         
-    }
+            }
+            }
+        }
 }
 
 struct NewsCell_Previews: PreviewProvider {

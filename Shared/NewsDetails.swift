@@ -11,11 +11,13 @@ struct NewsDetails: View {
     @Binding var news: NewsData
     
     var body: some View {
+        ScrollView {
         HStack(alignment: .top){
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
                 Text(news.title)
                     .font(.title)
+                    
                     .fontWeight(.bold)
                     .padding(.bottom, 5.0)
                 HStack {
@@ -39,6 +41,7 @@ struct NewsDetails: View {
             Spacer()
         }
         .padding(.horizontal, 20.0)
+        }
     }
 }
 
